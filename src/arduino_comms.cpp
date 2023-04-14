@@ -35,6 +35,12 @@ void ArduinoComms::readEncoderValues(int &val_1, int &val_2)
     val_2 = std::atoi(token_2.c_str());
 }
 
+void ArduinoComms::readLaserRange(int& range)
+{
+    std::string response = sendMsg("l\r");
+    range = std::atoi(response.c_str());
+}
+
 void ArduinoComms::setMotorValues(int val_1, int val_2)
 {
     std::stringstream ss;

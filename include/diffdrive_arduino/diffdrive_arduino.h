@@ -50,6 +50,8 @@ private:
   Wheel l_wheel_;
   Wheel r_wheel_;
 
+  double laser_range_;
+
   rclcpp::Logger logger_;
 
   std::chrono::time_point<std::chrono::system_clock> time_;
