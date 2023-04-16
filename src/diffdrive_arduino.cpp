@@ -72,7 +72,7 @@ CallbackReturn DiffDriveArduino::on_activate(const rclcpp_lifecycle::State & pre
   arduino_.sendEmptyMsg();
   // arduino.setPidValues(9,7,0,100);
   // arduino.setPidValues(14,7,0,100);
-  arduino_.setPidValues(30, 20, 0, 100);
+  // arduino_.setPidValues(30, 20, 0, 100);
 
   return CallbackReturn::SUCCESS;
 }
@@ -112,7 +112,7 @@ hardware_interface::return_type DiffDriveArduino::read(const rclcpp::Time & time
   int laser_range_mm;
   arduino_.readLaserRange(laser_range_mm);
   laser_range_ = (double)laser_range_mm / 1000.0;
-
+  
   return return_type::OK;  
 }
 
