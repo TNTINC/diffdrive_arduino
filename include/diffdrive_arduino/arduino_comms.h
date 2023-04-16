@@ -22,6 +22,7 @@ public:
   void readEncoderValues(int &val_1, int &val_2);
   void readLaserRange(int& range);
   void setMotorValues(int val_1, int val_2);
+  void setServoValue(int val);
   void setPidValues(float k_p, float k_d, float k_i, float k_o);
   
 

@@ -51,6 +51,7 @@ private:
   Wheel r_wheel_;
 
   double laser_range_;
+  double servo_cmd_; // -0.1 for gripper open, 0.1 for gripper close (because ros/gazebo jank)
 
   rclcpp::Logger logger_;
 
