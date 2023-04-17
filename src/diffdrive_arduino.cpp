@@ -27,6 +27,9 @@ CallbackReturn DiffDriveArduino::on_init(const hardware_interface::HardwareInfo 
     // Set up the Arduino
     arduino_.setup(cfg_.device, cfg_.baud_rate, cfg_.timeout);
 
+    this->laser_range_ = 0;
+    this->servo_cmd_ = 0;
+
     RCLCPP_INFO(logger_, "Finished Configuration");
 
     return CallbackReturn::SUCCESS;
@@ -62,7 +65,7 @@ std::vector<hardware_interface::CommandInterface> DiffDriveArduino::export_comma
     command_interfaces.emplace_back(hardware_interface::CommandInterface(
         r_wheel_.name, hardware_interface::HW_IF_VELOCITY, &r_wheel_.cmd));
     command_interfaces.emplace_back(hardware_interface::CommandInterface(
-        "gripper_left_joint", hardware_interface::HW_IF_EFFORT, &servo_cmd_));
+        "gripper_right_joint", hardware_interface::HW_IF_EFFORT, &servo_cmd_));
 
     return command_interfaces;
 }
@@ -130,8 +133,9 @@ hardware_interface::return_type DiffDriveArduino::write(
 
     // Map servo value from -0.1 to 0.1 to 35 to 75
     double servo_cmd_clamped = std::min(std::max(servo_cmd_, -0.1), 0.1);
-    int servo_val = (int)(35 + (servo_cmd_clamped + 0.1) / (-0.1 - 0.1) * (75 - 35));
+    int servo_val = (int)(35.5 + (servo_cmd_clamped + 0.1) * 5 * (75 - 35));
     arduino_.setServoValue(servo_val);
+
     arduino_.setMotorValues(
         l_wheel_.cmd / l_wheel_.rads_per_count / cfg_.loop_rate,
         r_wheel_.cmd / r_wheel_.rads_per_count / cfg_.loop_rate);
